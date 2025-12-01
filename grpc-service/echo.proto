@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package echo;
+
+service EchoService {
+  rpc Echo (EchoRequest) returns (EchoResponse);
+}
+
+message EchoRequest {
+  bytes data = 1;
+}
+
+message EchoResponse {
+  bytes data = 1;
+  int32 size_bytes = 2;
+  string timestamp = 3;
+}
