@@ -60,6 +60,7 @@ async def run_test(concurrency, duration, payload_size):
     throughput = total_requests / duration if duration > 0 else 0
 
     print("=== RESULTS (gRPC) ===")
+    print(f"Concurrency: {concurrency}")
     print(f"Total Requests: {total_requests}")
     print(f"Throughput: {throughput:.2f} req/s")
     print(f"Average Latency: {avg_latency_ms:.2f} ms")

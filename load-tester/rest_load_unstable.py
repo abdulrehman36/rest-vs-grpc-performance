@@ -53,6 +53,7 @@ async def run_test(concurrency, duration, payload_size):
     throughput = total_requests / duration
 
     print("=== RESULTS ===")
+    print(f"Concurrency: {concurrency}")
     print(f"Total Requests: {total_requests}")
     print(f"Throughput: {throughput:.2f} req/s")
     print(f"Average Latency: {avg_latency_ms:.2f} ms")
