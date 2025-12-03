@@ -15,29 +15,26 @@ class EchoService(echo_pb2_grpc.EchoServiceServicer):
         if random.random() < 0.2:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details("Simulated server failure")
-            # return an "empty" reply
-            return echo_pb2.EchoReply() # type: ignore
+            return echo_pb2.EchoResponse()  # type: ignore
 
+ 
         data = request.data
-        size = len(data)
+        size_bytes = len(data)
         ts = datetime.utcnow().isoformat() + "Z"
 
-        return echo_pb2.EchoReply( # type: ignore
-            payload=data,
-            size_bytes=size,
+        return echo_pb2.EchoResponse(  # type: ignore
+            data=data,
+            size_bytes=size_bytes,
             timestamp=ts,
         )
 
 
-async def serve() -> None:
+async def serve():
     server = aio.server()
     echo_pb2_grpc.add_EchoServiceServicer_to_server(EchoService(), server)
-
-    listen_addr = "[::]:50052"
-    server.add_insecure_port(listen_addr)
-    print(f"Unstable gRPC server listening on {listen_addr}")
-
+    server.add_insecure_port("[::]:50052")
     await server.start()
+    print("Unstable gRPC server listening on port 50052")
     await server.wait_for_termination()
 
 
